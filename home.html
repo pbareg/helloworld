@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Tic Tac Toe</title>
+	<script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script>
+	<style type="text/css">
+		table,tr,td{
+			border:1px solid black;
+		}
+
+		td{
+			width:101px;
+			height:101px;
+			
+		}
+		.cross{
+			background-image: url('cross.gif');
+			background-repeat: no-repeat;
+			background-position: 50% 50%;
+		}
+		.circle{
+			background-image:url('circle.gif');
+			background-repeat: no-repeat;
+			background-position: 50% 50%;
+		}
+		.popup-overlay{
+			display:none;
+		}
+		.popup-overlay.active{
+			display:block;
+		    position: absolute;
+			background: #ffffff;
+			border: 3px solid #666666;
+		}
+		.popup-content{
+			background: #ffffff;
+		}
+
+	</style>
+	<script type="text/javascript">
+
+		
+		
+		var player1="cross";
+		var player2="circle";
+		var previousPlayer=player1;
+		var currentPlayer=player1;
+		var gamecompleted=false;
+		function isGameCompleted(current){
+		var trArray= $('tr');
+		var player=$(current).attr('class')
+		var selector='.'+player
+		
+		if($(current).parent().find(selector).length==3){
+			return true;
+		}
+		
+		$('.close').click(function(){
+			$('.popup-overlay').removeClass('active');
+			gamecompleted=false;
+		});
+		
+		var position = $(current).index()
+		if(position==0){
+				console.log($($(trArray[0]).find('td')[position]).hasClass(player))
+			if( $($(trArray[0]).find('td')[position]).hasClass(player) && 
+			    $($(trArray[1]).find('td')[position]).hasClass(player) && 
+			    $($(trArray[2]).find('td')[position]).hasClass(player)){
+				return true;
+				}
+			if( $($(trArray[0]).find('td')[2]).hasClass(player) && 
+			    $($(trArray[1]).find('td')[1]).hasClass(player) && 
+			    $($(trArray[2]).find('td')[position]).hasClass(player)){
+				return true;
+				}
+		}
+		if(position==1){
+			if( $($(trArray[0]).find('td')[position]).hasClass(player) && 
+			    $($(trArray[1]).find('td')[position]).hasClass(player) && 
+			    $($(trArray[2]).find('td')[position]).hasClass(player)){
+				return true;
+			}else if( $($(trArray[0]).find('td')[0]).hasClass(player) && 
+			    $($(trArray[1]).find('td')[position]).hasClass(player) && 
+			    $($(trArray[2]).find('td')[2]).hasClass(player)){
+				return true;
+			}else if( $($(trArray[0]).find('td')[2]).hasClass(player) && 
+			    $($(trArray[1]).find('td')[position]).hasClass(player) && 
+			    $($(trArray[2]).find('td')[0]).hasClass(player)){
+				return true;
+				}
+		
+		
+		}
+		if(position==2){
+			if( $($(trArray[0]).find('td')[position]).hasClass(player) && 
+			    $($(trArray[1]).find('td')[position]).hasClass(player) && 
+			    $($(trArray[2]).find('td')[position]).hasClass(player)){
+				return true;
+				}
+			if( $($(trArray[0]).find('td')[0]).hasClass(player) && 
+			    $($(trArray[1]).find('td')[1]).hasClass(player) && 
+			    $($(trArray[2]).find('td')[position]).hasClass(player)){
+				return true;
+				}
+		}
+		
+			return false;
+		}
+		$(function(){
+				$('td').click(function(){
+					if(!gamecompleted){
+						if($(this).hasClass('cross')||$(this).hasClass('circle')){
+							alert("Checked already")	
+						}else{
+							$(this).attr('class',currentPlayer);
+							if(currentPlayer==player1){
+							previousPlayer=player1;
+							console.log("Played by : "+currentPlayer);
+								currentPlayer=player2
+								
+							}else{
+							previousPlayer=player2;
+							console.log("Played by : "+currentPlayer);
+								currentPlayer=player1
+								
+							}
+						}
+					gamecompleted=isGameCompleted(this)
+					if(gamecompleted){
+						console.log(previousPlayer==player1?"Game Won by Player1":"Game Won by Player2");	
+						$('td').removeAttr('class');
+						$('.popup-overlay').addClass('active')
+					}
+					
+				}
+			})
+		});
+	</script>
+</head>
+<body>
+
+
+<table>
+	<tr><td></td><td></td><td></td></tr>
+	<tr><td></td><td></td><td></td></tr>
+	<tr><td></td><td></td><td></td></tr>
+</table>
+
+<div>
+<div class="popup-overlay">
+<!--Creates the popup content-->
+ <div class="popup-content">
+    <h2>Pop-Up</h2>
+    <p> This is an example pop-up that you can make using jQuery.</p>
+   <!--popup's close button-->
+    <button class="close">Close</button>    
+</div>
+</div>
+
+
+</div>
+
+
+
+</body>
+</html>
